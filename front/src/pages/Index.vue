@@ -5,7 +5,7 @@
       src='~assets/quasar-logo-full.svg'
     > -->
     <div class='q-pa-xl'>
-      <div v-for='(task, index) in tasks' v-bind:key='index'>
+      <div v-for='(task, index) in getTasks' v-bind:key='index'>
         Id: {{task.id}} <br />
         Descrição: {{task.description}} <br />
         Status: {{task.status === 'O' ? 'Aberto' : 'Fechado' }}
@@ -16,26 +16,21 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'PageIndex',
-  data () {
-    return {
-      tasks: []
-    }
+  computed: {
+    ...mapGetters('main', [
+      'getTasks'
+    ])
   },
   methods: {
-    getTasks () {
-      axios.get('http://localhost:3000/tasks')
-        .then(response => {
-          if (response.data && response.data.length) {
-            this.tasks = response.data
-          }
-        })
-    }
+    ...mapActions('main', [
+      'setTasks'
+    ])
   },
   created () {
-    this.getTasks()
+    this.setTasks()
   }
 }
 </script>
