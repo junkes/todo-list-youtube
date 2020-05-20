@@ -7,3 +7,17 @@ export function setTasks (context) {
       }
     })
 }
+
+export function setTask (context, data) {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  axios.post('http://localhost:3000/tasks', data, config)
+    .then(response => {
+      if (response.data) {
+        context.commit('setTasks', response.data)
+      }
+    })
+}

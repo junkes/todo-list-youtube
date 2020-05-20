@@ -14,7 +14,8 @@
         <q-toolbar-title>
           Quasar App
         </q-toolbar-title>
-
+        <q-btn class="q-mx-md" to="/tasks">Listar</q-btn>
+        <q-btn class="q-mx-md" to="/tasks/add">Cadastrar</q-btn>
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
