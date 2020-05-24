@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   // name: 'PageName',
   data () {
@@ -32,15 +32,40 @@ export default {
       description: ''
     }
   },
+  computed: {
+    ...mapGetters('main', [
+      'getterTask'
+    ])
+  },
+  watch: {
+    getterTask (value) {
+      this.description = value.description
+    }
+  },
   methods: {
     ...mapActions('main', [
-      'setTask'
+      'newTask',
+      'getTask',
+      'updateTask'
     ]),
     onSubmit () {
-      this.setTask({
-        description: this.description,
-        status: 'O'
-      })
+      if (this.$route.params.id) {
+        this.updateTask({
+          id: this.$route.params.id,
+          description: this.description,
+          status: 'O'
+        })
+      } else {
+        this.newTask({
+          description: this.description,
+          status: 'O'
+        })
+      }
+    }
+  },
+  created () {
+    if (this.$route.params.id) {
+      this.getTask({ id: this.$route.params.id })
     }
   }
 }

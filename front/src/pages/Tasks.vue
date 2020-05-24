@@ -4,13 +4,21 @@
       alt='Quasar logo'
       src='~assets/quasar-logo-full.svg'
     > -->
-    <div class='q-pa-xl'>
-      <div v-for='(task, index) in getTasks' v-bind:key='index'>
+    <div class='q-py-xl list-tasks q-gutter-xs'>
+      <!-- <div >
         Id: {{task.id}} <br />
         Descrição: {{task.description}} <br />
         Status: {{task.status === 'O' ? 'Aberto' : 'Fechado' }}
         <hr />
-      </div>
+      </div> -->
+      <q-banner v-for='(task, index) in getTasks' v-bind:key='index' inline-actions rounded class="bg-grey-4">
+        {{task.id}} | {{task.description}}
+
+        <template v-slot:action>
+          <q-btn :to="`tasks/${task.id}`" flat icon="edit" />
+          <q-btn @click=deleteTask(task) color="red" flat icon="delete" />
+        </template>
+      </q-banner>
     </div>
   </q-page>
 </template>
@@ -26,7 +34,8 @@ export default {
   },
   methods: {
     ...mapActions('main', [
-      'setTasks'
+      'setTasks',
+      'deleteTask'
     ])
   },
   created () {
@@ -34,3 +43,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.list-tasks {
+  max-width: 800px;
+  margin: 0 auto;
+}
+</style>
